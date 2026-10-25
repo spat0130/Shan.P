@@ -12,6 +12,12 @@ export default function Builder({ scene }) {
       <ul className="chips">
         {skills.map((s) => <li key={s}>{s}</li>)}
       </ul>
+      <figure className="quote">
+        <blockquote>“{profile.quote.text}”</blockquote>
+        <figcaption>
+          <strong>{profile.quote.author}</strong> · {profile.quote.role}
+        </figcaption>
+      </figure>
     </Scene>
   )
 }

@@ -28,5 +28,5 @@ npm run build   # production build in dist/
 1. Setup and scene skeleton ✓
 2. Layout and sections ✓
 3. Scroll animation ✓
-4. Real content
+4. Real content ✓
 5. Polish ✓ and deploy

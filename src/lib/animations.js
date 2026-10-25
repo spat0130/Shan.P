@@ -125,8 +125,9 @@ function builder() {
     { yPercent: -6, scale: 1.12 },
     { yPercent: 6, ease: 'none', scrollTrigger: { trigger: '#builder', start: 'top bottom', end: 'bottom top', scrub: true } },
   )
-  reveal('#builder .scene__content > :not(.chips)', '#builder')
+  reveal('#builder .scene__content > :not(.chips, .quote)', '#builder')
   reveal('#builder .chips li', '#builder .chips', { y: 16, scale: 0.9, stagger: 0.04, duration: 0.5 })
+  reveal('#builder .quote', '#builder .quote')
 }
 
 // 06: holographic cards float up out of the skyline.
@@ -151,6 +152,8 @@ function projects() {
       scrollTrigger: { trigger: card, start: 'top 90%', once: true },
     })
   })
+  reveal('.more-projects__title', '.more-projects__title')
+  reveal('.more-projects li', '.more-projects', { y: 20, stagger: 0.05, duration: 0.6 })
 }
 
 // 07: skyline settles as the contact links light up.

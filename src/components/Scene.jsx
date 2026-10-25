@@ -7,6 +7,8 @@ export default function Scene({ scene, align = 'bottom-left', shade = 'bottom', 
         <img
           className="scene__bg"
           src={scene.image}
+          srcSet={`${scene.image.replace('.webp', '-960.webp')} 960w, ${scene.image} 1920w`}
+          sizes="100vw"
           alt=""
           loading={priority ? 'eager' : 'lazy'}
           fetchPriority={priority ? 'high' : undefined}
