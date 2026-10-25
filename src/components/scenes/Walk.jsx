@@ -1,10 +1,12 @@
 import Scene, { SceneHeading } from '../Scene'
+import { WalkVisual } from '../Visuals'
 import { timeline } from '../../data/site'
 
 export default function Walk({ scene }) {
   return (
-    <Scene scene={scene} align="bottom-left" shade="bottom-strong" className="walk">
+    <Scene scene={scene} align="bottom-left" className="walk">
       <SceneHeading scene={scene} />
+      <WalkVisual />
       <ol className="timeline">
         {timeline.map((m) => (
           <li key={m.id} className="glass">

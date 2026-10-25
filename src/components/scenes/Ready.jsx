@@ -1,9 +1,10 @@
 import Scene, { SceneHeading } from '../Scene'
+import { ReadyVisual } from '../Visuals'
 import { principles } from '../../data/site'
 
 export default function Ready({ scene }) {
   return (
-    <Scene scene={scene} align="bottom-right" shade="right">
+    <Scene scene={scene} align="bottom-right" visual={<ReadyVisual />}>
       <SceneHeading scene={scene} />
       <ul className="principles">
         {principles.map((p) => (

@@ -5,17 +5,21 @@ import { gsap, ScrollTrigger } from './smoothScroll'
 export function initAnimations() {
   const mm = gsap.matchMedia()
 
-  mm.add('(prefers-reduced-motion: no-preference)', () => {
+  mm.add('(prefers-reduced-motion: no-preference)', (context) => {
+    // The first screen animates straight away. Everything below the fold is
+    // set up one scene per task so page load isn't one long blocking task.
     progressBar()
-    sceneRail()
     arrival()
-    ready()
-    dismount()
-    walk()
-    builder()
-    projects()
-    connect()
-    sceneExits()
+    const rest = [ready, dismount, walk, builder, projects, connect, sceneExits, sceneRail]
+    let timer
+    const next = () => {
+      const setup = rest.shift()
+      if (!setup) return ScrollTrigger.refresh()
+      context.add(setup)
+      timer = setTimeout(next, 0)
+    }
+    timer = setTimeout(next, 0)
+    return () => clearTimeout(timer)
   })
 
   // Pins change page height, so re-measure once webfonts settle.
@@ -58,38 +62,60 @@ function sceneRail() {
   })
 }
 
-// 01: name rises in on load, then the rider rolls toward camera as you scroll.
+// Draw strokes in (stroke-dashoffset 1 -> 0). Every `.draw` has pathLength=1.
+function draw(targets, vars = {}) {
+  return gsap.fromTo(targets, { strokeDashoffset: 1 }, { strokeDashoffset: 0, ease: 'power2.inOut', ...vars })
+}
+
+// Nodes and dots pop in from nothing.
+function pop(targets, vars = {}) {
+  return gsap.from(targets, { scale: 0, transformOrigin: 'center', ease: 'back.out(2)', ...vars })
+}
+
+// 01: rings draw in around the monogram, then fly past the camera as you scroll.
 function arrival() {
   const intro = gsap.timeline({ defaults: { ease: 'power4.out' } })
   intro
-    .from('#arrival .scene__bg', { scale: 1.25, duration: 2.2, ease: 'power2.out' })
+    .add(draw('#arrival .draw', { duration: 1.8, stagger: 0.12 }), 0)
+    .from('#arrival .monogram', { autoAlpha: 0, scale: 0.6, transformOrigin: 'center', duration: 1.2 }, 0.6)
+    .add(pop('#arrival .dot', { duration: 0.6, stagger: 0.2 }), 1.2)
     .from('.arrival__name span', { yPercent: 110, autoAlpha: 0, duration: 1.1, stagger: 0.12 }, 0.3)
     .from('#arrival .eyebrow, .arrival__role, .arrival__location, .scroll-cue', { y: 20, autoAlpha: 0, duration: 0.8, stagger: 0.08 }, 0.8)
 
   gsap.timeline({
     scrollTrigger: { trigger: '#arrival', start: 'top top', end: '+=100%', scrub: true, pin: true },
   })
-    .to('#arrival .scene__bg', { scale: 1.35, ease: 'none' }, 0)
+    .to('#arrival .visual', { scale: 2.4, autoAlpha: 0, ease: 'power1.in' }, 0)
     .to('#arrival .scene__content', { y: -120, autoAlpha: 0, ease: 'power1.in' }, 0)
 }
 
-// 02: camera pushes in on the helmet while each principle locks in.
+// 02: each chevron draws and lights up as its principle locks in.
 function ready() {
   const tl = gsap.timeline({
     scrollTrigger: { trigger: '#ready', start: 'top top', end: '+=150%', scrub: 0.6, pin: true },
   })
-  tl.fromTo('#ready .scene__bg', { scale: 1.05 }, { scale: 1.3, ease: 'none', duration: 3 }, 0)
+  tl.add(draw('#ready .faint', { duration: 3, ease: 'none' }), 0)
     .from('#ready .eyebrow, #ready .scene__title', { x: 60, autoAlpha: 0, stagger: 0.1, duration: 0.6 }, 0)
-    .from('#ready .principles li', { x: 60, autoAlpha: 0, stagger: 0.5, duration: 0.6 }, 0.6)
+  gsap.utils.toArray('#ready .principles li').forEach((li, i) => {
+    const at = 0.6 + i * 0.5
+    tl.from(li, { x: 60, autoAlpha: 0, duration: 0.6 }, at)
+      .add(draw(`#ready .chevron:nth-of-type(${i + 1})`, { duration: 0.6 }), at)
+      .add(pop(`#ready .node:nth-of-type(${i + 1})`, { duration: 0.4 }), at + 0.3)
+  })
+  tl.to('#ready .visual', { xPercent: 6, ease: 'none', duration: 3 }, 0)
 }
 
-// 03: the frame slides sideways as he swings off the bike; stats count up.
+// 03: the code brackets give way to a growing bar chart; stats count up.
 function dismount() {
-  gsap.fromTo(
-    '#dismount .scene__bg',
-    { scale: 1.15, xPercent: 6 },
-    { xPercent: -6, ease: 'none', scrollTrigger: { trigger: '#dismount', start: 'top bottom', end: 'bottom top', scrub: true } },
-  )
+  const tl = gsap.timeline({
+    scrollTrigger: { trigger: '#dismount', start: 'top 80%', end: 'top 10%', scrub: 0.8 },
+  })
+  tl.add(draw('#dismount .code .draw', { duration: 1, stagger: 0.15 }), 0)
+    .add(draw('#dismount .arrow', { duration: 0.6 }), 0.8)
+    .add(draw('#dismount .bars .faint', { duration: 0.6 }), 1)
+    .from('#dismount .bars rect', { scaleY: 0, transformOrigin: '50% 100%', stagger: 0.12, duration: 0.8, ease: 'power2.out' }, 1.1)
+    .set('#dismount .bars rect', { strokeDashoffset: 0 }, 0)
+    .to('#dismount .code', { autoAlpha: 0.35, duration: 0.8 }, 1.4)
   reveal('#dismount .scene__content > *', '#dismount')
 
   document.querySelectorAll('#dismount .stats dd').forEach((el) => {
@@ -107,33 +133,45 @@ function dismount() {
   })
 }
 
-// 04: he walks toward us (image grows) and the milestones step in one by one.
+// 04: the route draws itself through each stop as the milestones step in.
 function walk() {
-  gsap.fromTo(
-    '#walk .scene__bg',
-    { scale: 1 },
-    { scale: 1.2, ease: 'none', scrollTrigger: { trigger: '#walk', start: 'top bottom', end: 'bottom top', scrub: true } },
-  )
+  const tl = gsap.timeline({
+    scrollTrigger: { trigger: '#walk', start: 'top 75%', end: 'center 40%', scrub: 0.8 },
+  })
+  tl.add(draw('#walk .route', { duration: 3, ease: 'none' }), 0)
+  gsap.utils.toArray('#walk .stop').forEach((stop, i) => {
+    tl.add(draw(stop.querySelector('.draw'), { duration: 0.3 }), i * 0.5)
+      .add(pop(stop.querySelector('.node'), { duration: 0.3 }), i * 0.5 + 0.15)
+  })
   reveal('#walk .eyebrow, #walk .scene__title', '#walk')
   reveal('#walk .timeline li', '#walk .timeline', { y: 60, stagger: 0.15 })
 }
 
-// 05: slow drift on the portrait, bio and chips reveal.
+// 05: the skills network wires itself up, then turns slowly with the scroll.
 function builder() {
+  const tl = gsap.timeline({ scrollTrigger: { trigger: '#builder', start: 'top 70%', once: true } })
+  tl.add(draw('#builder .visual > .draw', { duration: 1.4 }), 0)
+    .add(pop('#builder .node', { duration: 0.5, stagger: 0.06 }), 0.2)
+    .add(draw('#builder .links .draw', { duration: 1, stagger: 0.04 }), 0.4)
   gsap.fromTo(
-    '#builder .scene__bg',
-    { yPercent: -6, scale: 1.12 },
-    { yPercent: 6, ease: 'none', scrollTrigger: { trigger: '#builder', start: 'top bottom', end: 'bottom top', scrub: true } },
+    '#builder .visual',
+    { rotate: -12 },
+    { rotate: 12, ease: 'none', scrollTrigger: { trigger: '#builder', start: 'top bottom', end: 'bottom top', scrub: true } },
   )
   reveal('#builder .scene__content > :not(.chips, .quote)', '#builder')
   reveal('#builder .chips li', '#builder .chips', { y: 16, scale: 0.9, stagger: 0.04, duration: 0.5 })
   reveal('#builder .quote', '#builder .quote')
 }
 
-// 06: holographic cards float up out of the skyline.
+// 06: the grid floor draws in and the holographic cards float up from it.
 function projects() {
+  draw('.projects__bg .draw', {
+    duration: 1.6,
+    stagger: 0.02,
+    scrollTrigger: { trigger: '.projects', start: 'top 70%', once: true },
+  })
   gsap.to('.projects__bg', {
-    yPercent: 20,
+    yPercent: -12,
     ease: 'none',
     scrollTrigger: { trigger: '.projects', start: 'top bottom', end: 'bottom top', scrub: true },
   })
@@ -156,22 +194,29 @@ function projects() {
   reveal('.more-projects li', '.more-projects', { y: 20, stagger: 0.05, duration: 0.6 })
 }
 
-// 07: skyline settles as the contact links light up.
+// 07: connections reach out from the centre as the contact links light up.
 function connect() {
-  gsap.fromTo(
-    '#connect .scene__bg',
-    { scale: 1.2, yPercent: 8 },
-    { scale: 1, yPercent: 0, ease: 'none', scrollTrigger: { trigger: '#connect', start: 'top bottom', end: 'bottom bottom', scrub: true } },
-  )
+  const tl = gsap.timeline({
+    scrollTrigger: { trigger: '#connect', start: 'top 70%', end: 'center center', scrub: 0.8 },
+  })
+  tl.add(draw('#connect .faint', { duration: 1 }), 0)
+    .add(pop('#connect .node--hub', { duration: 0.3 }), 0)
+    .add(draw('#connect .spokes .draw', { duration: 0.8, stagger: 0.06 }), 0.3)
+    .add(pop('#connect .node:not(.node--hub)', { duration: 0.3, stagger: 0.06 }), 0.6)
+  gsap.to('#connect .visual', {
+    rotate: 30,
+    ease: 'none',
+    scrollTrigger: { trigger: '#connect', start: 'top bottom', end: 'bottom bottom', scrub: true },
+  })
   reveal('#connect .scene__content > :not(.connect__links)', '#connect')
   reveal('.connect__links li', '.connect__links', { y: 24, stagger: 0.1 })
 }
 
-// Each full-bleed frame dims as it scrolls away, so scenes crossfade into one another.
+// Each symbol fades as its scene scrolls away, so scenes crossfade into one another.
 function sceneExits() {
   ;['dismount', 'walk', 'builder'].forEach((id) => {
     gsap.to(`#${id} .scene__media`, {
-      autoAlpha: 0.25,
+      autoAlpha: 0.2,
       ease: 'none',
       scrollTrigger: { trigger: `#${id}`, start: 'center top', end: 'bottom top', scrub: true },
     })

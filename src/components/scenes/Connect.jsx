@@ -1,4 +1,5 @@
 import Scene from '../Scene'
+import { ConnectVisual } from '../Visuals'
 import Icon from '../Icon'
 import { contact, profile } from '../../data/site'
 
@@ -6,7 +7,7 @@ const YEAR = new Date().getFullYear()
 
 export default function Connect({ scene }) {
   return (
-    <Scene scene={scene} align="middle-right" shade="right" className="connect">
+    <Scene scene={scene} align="middle-right" className="connect" visual={<ConnectVisual />}>
       <p className="eyebrow"><span className="eyebrow__number">{scene.number}</span> Final stop</p>
       <h2 id={`${scene.id}-title`} className="scene__title">{contact.heading}</h2>
       <p className="lead">{contact.text}</p>

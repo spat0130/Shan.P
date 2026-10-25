@@ -1,9 +1,10 @@
 import Scene from '../Scene'
+import { ArrivalVisual } from '../Visuals'
 import { profile } from '../../data/site'
 
 export default function Arrival({ scene }) {
   return (
-    <Scene scene={scene} align="bottom-left" className="arrival" priority>
+    <Scene scene={scene} align="bottom-left" className="arrival" visual={<ArrivalVisual />}>
       <p className="eyebrow"><span className="eyebrow__number">{scene.number}</span> {scene.caption}</p>
       <h1 id={`${scene.id}-title`} className="arrival__name">
         <span>{profile.firstName}</span>

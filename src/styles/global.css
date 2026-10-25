@@ -88,7 +88,7 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   letter-spacing: 0.1em;
   color: var(--color-muted);
   text-decoration: none;
-  opacity: 0.6;
+  opacity: 0.85;
 }
 .scene-progress a:hover, .scene-progress a.is-active { color: var(--color-sunset); opacity: 1; }
 .scene-progress a.is-active { transform: scale(1.4); }
@@ -114,13 +114,71 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   overflow: hidden;
   padding: 96px var(--gutter) clamp(48px, 10vh, 112px);
 }
-.scene__media { position: absolute; inset: 0; }
-.scene__bg { width: 100%; height: 100%; object-fit: cover; will-change: transform; }
-.scene__shade { position: absolute; inset: 0; }
-.scene__shade--bottom { background: linear-gradient(to top, var(--color-night) 0%, rgb(11 15 20 / 0.4) 45%, transparent 75%); }
-.scene__shade--bottom-strong { background: linear-gradient(to top, var(--color-night) 10%, rgb(11 15 20 / 0.7) 55%, rgb(11 15 20 / 0.15) 100%); }
-.scene__shade--left { background: linear-gradient(to right, rgb(11 15 20 / 0.92) 0%, rgb(11 15 20 / 0.6) 40%, transparent 70%); }
-.scene__shade--right { background: linear-gradient(to left, rgb(11 15 20 / 0.92) 0%, rgb(11 15 20 / 0.6) 40%, transparent 70%); }
+.scene__media { position: absolute; inset: 0; pointer-events: none; }
+.scene + .scene { border-top: 1px solid rgb(255 255 255 / 0.04); }
+
+/* ---------- Line-art visuals ---------- */
+.visual {
+  position: absolute;
+  overflow: visible;
+  stroke: var(--color-sunset);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.visual .draw { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.visual .faint { stroke: rgb(255 255 255 / 0.14); stroke-width: 1; }
+.visual .node { fill: var(--color-sunset); stroke: none; }
+.visual .node--hub { fill: var(--color-gold); }
+.visual .dot { fill: var(--color-gold); stroke: none; }
+.visual .dot--gold { fill: var(--color-sunset); }
+.visual circle.draw, .visual rect.draw, .visual polygon.draw { vector-effect: non-scaling-stroke; }
+
+/* Visual placement: opposite the content. */
+.scene--bottom-left .visual, .scene--middle-left .visual { right: 6vw; top: 50%; translate: 0 -50%; width: min(42vw, 600px); }
+.scene--bottom-right .visual, .scene--middle-right .visual { left: 4vw; top: 50%; translate: 0 -50%; width: min(46vw, 640px); }
+
+.visual--arrival { filter: drop-shadow(0 0 24px rgb(255 138 61 / 0.25)); }
+.scene--bottom-left .visual--arrival { right: 3vw; width: min(38vw, 540px); }
+.visual--arrival .rings circle:nth-child(odd) { stroke: var(--color-gold); }
+.visual--arrival .monogram { fill: var(--color-text); stroke: none; font-family: var(--font-display); font-weight: 700; font-size: 56px; letter-spacing: 0.08em; }
+.visual--arrival .orbit { transform-origin: 300px 300px; animation: spin 18s linear infinite; }
+.visual--arrival .orbit--slow { animation-duration: 32s; animation-direction: reverse; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.scene.scene--bottom-right .visual--ready { top: 40%; width: min(48vw, 680px); }
+.visual--ready .chevron { stroke-width: 2.5; }
+
+.visual--dismount .code path { stroke: var(--color-glow); }
+.visual--dismount .bars rect { stroke: var(--color-gold); fill: rgb(255 197 107 / 0.1); }
+
+.walk .visual--walk { position: relative; top: auto; right: auto; translate: none; display: block; width: 100%; max-width: 720px; height: auto; margin: 0.75rem 0 0; }
+.visual--walk .route { stroke-width: 2; }
+.visual--walk .stop circle.draw { stroke: var(--color-gold); }
+
+.visual--builder .links line:not(.faint) { stroke: rgb(255 138 61 / 0.55); }
+.visual--builder { filter: drop-shadow(0 0 18px rgb(255 197 107 / 0.18)); }
+
+.visual--connect .spokes line { stroke: rgb(255 197 107 / 0.6); }
+.visual--connect { filter: drop-shadow(0 0 24px rgb(255 138 61 / 0.2)); }
+
+/* Soft glow behind each symbol. */
+.scene::before {
+  content: '';
+  position: absolute;
+  width: 60vw;
+  height: 60vw;
+  max-width: 900px;
+  max-height: 900px;
+  top: 50%;
+  translate: 0 -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 138 61 / 0.09), transparent 65%);
+  pointer-events: none;
+}
+.scene--bottom-left::before, .scene--middle-left::before { right: -10vw; }
+.scene--bottom-right::before, .scene--middle-right::before { left: -10vw; }
 
 .scene__content { position: relative; max-width: 560px; }
 .scene--bottom-left { align-items: flex-end; justify-content: flex-start; }
@@ -139,7 +197,9 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 /* On narrow screens every scene stacks content at the bottom over a darker shade. */
 @media (max-width: 720px) {
   .scene { align-items: flex-end; justify-content: flex-start; }
-  .scene__shade--left, .scene__shade--right { background: linear-gradient(to top, var(--color-night) 15%, rgb(11 15 20 / 0.75) 60%, rgb(11 15 20 / 0.2) 100%); }
+  .scene .visual { left: 50%; right: auto; top: 88px; translate: -50% 0; width: min(88vw, 420px); opacity: 0.55; }
+  .scene.walk .visual--walk { left: auto; top: auto; translate: none; width: 100%; opacity: 1; }
+  .scene::before { left: -20vw; right: auto; top: 30%; width: 140vw; height: 140vw; }
 }
 
 /* ---------- 01 Arrival ---------- */
@@ -148,7 +208,7 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   margin: 0;
   display: grid;
   overflow: hidden;
-  font-size: clamp(3rem, 11vw, 9rem);
+  font-size: clamp(3rem, 10vw, 7.5rem);
   line-height: 0.85;
   text-transform: uppercase;
   letter-spacing: -0.01em;
@@ -213,14 +273,15 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 }
 .projects__bg {
   position: absolute;
-  inset: 0 0 auto;
-  width: 100%;
-  height: 70vh;
-  object-fit: cover;
-  opacity: 0.25;
-  mask-image: linear-gradient(to bottom, black 20%, transparent);
-  -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent);
+  inset: auto 0 0;
+  height: 55vh;
+  opacity: 0.5;
+  perspective: 600px;
+  mask-image: linear-gradient(to top, black 10%, transparent);
+  -webkit-mask-image: linear-gradient(to top, black 10%, transparent);
 }
+.projects__bg .visual { position: static; width: 100%; height: 100%; stroke: var(--color-glow); stroke-width: 1; opacity: 0.6; }
+.projects__bg .visual line { vector-effect: non-scaling-stroke; }
 .projects__inner { position: relative; max-width: 1200px; margin: 0 auto; }
 .focus-areas { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 2.5rem; }
 .focus-areas li {

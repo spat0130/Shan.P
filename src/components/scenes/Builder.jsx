@@ -1,9 +1,10 @@
 import Scene, { SceneHeading } from '../Scene'
+import { BuilderVisual } from '../Visuals'
 import { profile, skills } from '../../data/site'
 
 export default function Builder({ scene }) {
   return (
-    <Scene scene={scene} align="middle-right" shade="right" className="builder">
+    <Scene scene={scene} align="middle-right" className="builder" visual={<BuilderVisual />}>
       <SceneHeading scene={scene} />
       {profile.bio.map((para, i) => (
         <p key={i} className={i === 0 ? 'lead' : undefined}>{para}</p>

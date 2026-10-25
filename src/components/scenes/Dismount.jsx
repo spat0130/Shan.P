@@ -1,9 +1,10 @@
 import Scene, { SceneHeading } from '../Scene'
+import { DismountVisual } from '../Visuals'
 import { profile, stats } from '../../data/site'
 
 export default function Dismount({ scene }) {
   return (
-    <Scene scene={scene} align="middle-left" shade="left">
+    <Scene scene={scene} align="middle-left" visual={<DismountVisual />}>
       <SceneHeading scene={scene} />
       <p className="lead">{profile.intro}</p>
       <dl className="stats">

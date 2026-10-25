@@ -21,7 +21,7 @@ npm run build   # production build in dist/
 - `src/data/site.js` — all copy, scenes, project slots and links (edit this to add content)
 - `src/components/` — page sections
 - `src/styles/theme.css` — colours, fonts and spacing tokens
-- `public/scenes/` — scene images (placeholder crops from the storyboard for now)
+- `src/components/Visuals.jsx` — the animated line-art symbol for each scene
 
 ## Roadmap
 

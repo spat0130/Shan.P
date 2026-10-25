@@ -1,13 +1,14 @@
 import { SceneHeading } from '../Scene'
 import Icon from '../Icon'
+import { ProjectsVisual } from '../Visuals'
 import { focusAreas, moreProjects, projects } from '../../data/site'
 
-// Not a full-bleed frame: the storyboard image becomes a dim backdrop behind
-// a grid of glowing "holographic" project cards.
+// Not a full-bleed frame: a perspective grid sits behind a grid of glowing
+// "holographic" project cards.
 export default function Projects({ scene }) {
   return (
     <section id={scene.id} className="projects" aria-labelledby={`${scene.id}-title`}>
-      <img className="projects__bg" src={scene.image.replace('.webp', '-960.webp')} alt="" loading="lazy" decoding="async" />
+      <div className="projects__bg"><ProjectsVisual /></div>
       <div className="projects__inner">
         <SceneHeading scene={scene} />
         <ul className="focus-areas" aria-label="Focus areas">

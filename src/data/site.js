@@ -1,8 +1,5 @@
 // All site copy lives here. Edit this file to update the content.
 
-// Public assets resolve against the deploy base (e.g. /portfolio/ on GitHub Pages).
-const scene = (file) => `${import.meta.env.BASE_URL}scenes/${file}`
-
 export const profile = {
   name: 'Shanmuka Patchigolla',
   firstName: 'Shanmuka',
@@ -26,13 +23,13 @@ export const profile = {
 
 // The scroll narrative, one entry per storyboard frame.
 export const scenes = [
-  { id: 'arrival', number: '01', title: 'The Arrival', caption: 'The journey begins...', image: scene('01-arrival.webp') },
-  { id: 'ready', number: '02', title: 'Ready to Move', caption: 'Focus. Control. Next stop.', image: scene('02-ready.webp') },
-  { id: 'dismount', number: '03', title: 'Dismount', caption: 'Time to step off...', image: scene('03-dismount.webp') },
-  { id: 'walk', number: '04', title: 'Walk Into My World', caption: 'Same streets. New perspective.', image: scene('04-walk.webp') },
-  { id: 'builder', number: '05', title: 'Meet the Builder', caption: 'Builder. Problem solver. Always learning.', image: scene('05-builder.webp') },
-  { id: 'projects', number: '06', title: 'Projects in Motion', caption: 'Ideas → Code → Real Impact.', image: scene('06-projects.webp') },
-  { id: 'connect', number: '07', title: "Let's Connect", caption: 'Open to opportunities, collaborations and new ideas.', image: scene('07-connect.webp') },
+  { id: 'arrival', number: '01', title: 'The Arrival', caption: 'The journey begins...' },
+  { id: 'ready', number: '02', title: 'Ready to Move', caption: 'Focus. Control. Next stop.' },
+  { id: 'dismount', number: '03', title: 'Dismount', caption: 'Time to step off...' },
+  { id: 'walk', number: '04', title: 'Walk Into My World', caption: 'Same streets. New perspective.' },
+  { id: 'builder', number: '05', title: 'Meet the Builder', caption: 'Builder. Problem solver. Always learning.' },
+  { id: 'projects', number: '06', title: 'Projects in Motion', caption: 'Ideas → Code → Real Impact.' },
+  { id: 'connect', number: '07', title: "Let's Connect", caption: 'Open to opportunities, collaborations and new ideas.' },
 ]
 
 // Scene 02: how I work.
