@@ -1,6 +1,9 @@
 // All site copy lives here so content can be swapped in later (Phase 4).
 const LOREM =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+// Public assets resolve against the deploy base (e.g. /portfolio/ on GitHub Pages).
+const scene = (file) => `${import.meta.env.BASE_URL}scenes/${file}`
+
 const LOREM_SHORT = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 
 export const profile = {
@@ -17,13 +20,13 @@ export const profile = {
 
 // The scroll narrative, one entry per storyboard frame.
 export const scenes = [
-  { id: 'arrival', number: '01', title: 'The Arrival', caption: 'The journey begins...', image: '/scenes/01-arrival.webp' },
-  { id: 'ready', number: '02', title: 'Ready to Move', caption: 'Focus. Control. Next stop.', image: '/scenes/02-ready.webp' },
-  { id: 'dismount', number: '03', title: 'Dismount', caption: 'Time to step off...', image: '/scenes/03-dismount.webp' },
-  { id: 'walk', number: '04', title: 'Walk Into My World', caption: 'Same streets. New perspective.', image: '/scenes/04-walk.webp' },
-  { id: 'builder', number: '05', title: 'Meet the Builder', caption: 'Builder. Problem solver. Always learning.', image: '/scenes/05-builder.webp' },
-  { id: 'projects', number: '06', title: 'Projects in Motion', caption: 'Ideas → Code → Real Impact.', image: '/scenes/06-projects.webp' },
-  { id: 'connect', number: '07', title: "Let's Connect", caption: 'Open to opportunities, collaborations and new ideas.', image: '/scenes/07-connect.webp' },
+  { id: 'arrival', number: '01', title: 'The Arrival', caption: 'The journey begins...', image: scene('01-arrival.webp') },
+  { id: 'ready', number: '02', title: 'Ready to Move', caption: 'Focus. Control. Next stop.', image: scene('02-ready.webp') },
+  { id: 'dismount', number: '03', title: 'Dismount', caption: 'Time to step off...', image: scene('03-dismount.webp') },
+  { id: 'walk', number: '04', title: 'Walk Into My World', caption: 'Same streets. New perspective.', image: scene('04-walk.webp') },
+  { id: 'builder', number: '05', title: 'Meet the Builder', caption: 'Builder. Problem solver. Always learning.', image: scene('05-builder.webp') },
+  { id: 'projects', number: '06', title: 'Projects in Motion', caption: 'Ideas → Code → Real Impact.', image: scene('06-projects.webp') },
+  { id: 'connect', number: '07', title: "Let's Connect", caption: 'Open to opportunities, collaborations and new ideas.', image: scene('07-connect.webp') },
 ]
 
 // Scene 02: what drives the work.
