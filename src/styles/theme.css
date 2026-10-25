@@ -1,0 +1,24 @@
+/* Design tokens: Melbourne at golden hour. */
+:root {
+  --color-night: #0b0f14;
+  --color-asphalt: #151b22;
+  --color-brick: #5a2e1f;
+  --color-sunset: #ff8a3d;
+  --color-gold: #ffc56b;
+  --color-glow: #4fb3ff; /* holographic project cards */
+  --color-text: #f4efe9;
+  --color-muted: #a59c93;
+
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  --gutter: clamp(16px, 4vw, 64px);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  --glass-bg: rgb(21 27 34 / 0.55);
+  --glass-border: rgb(255 255 255 / 0.12);
+  --glow-border: rgb(79 179 255 / 0.45);
+  --radius: 14px;
+}
