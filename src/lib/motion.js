@@ -2,14 +2,14 @@ import { useLayoutEffect } from 'react'
 import { gsap, ScrollTrigger, reducedMotion } from './smoothScroll'
 
 // Fade-and-rise for a group of elements as they enter the viewport.
-export function reveal(targets, trigger, vars = {}) {
+export function reveal(targets, trigger, { start = 'top 85%', ...vars } = {}) {
   return gsap.from(targets, {
     y: 40,
     autoAlpha: 0,
     duration: 0.9,
     ease: 'power3.out',
     stagger: 0.08,
-    scrollTrigger: { trigger, start: 'top 85%', once: true },
+    scrollTrigger: { trigger, start, once: true },
     ...vars,
   })
 }

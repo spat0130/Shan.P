@@ -162,7 +162,6 @@ body::before {
   z-index: 40;
   pointer-events: none;
   background: linear-gradient(to top, var(--color-sunset), #c4532a 40%, var(--color-night));
-  transform: translateY(100%);
 }
 
 /* ---------- Line-art visuals ---------- */

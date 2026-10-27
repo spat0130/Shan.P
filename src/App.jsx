@@ -27,22 +27,31 @@ function Shell() {
 
   // Page change: a sunset curtain sweeps up, the page swaps underneath, and
   // the curtain carries on off the top of the screen.
+  // Only a new navigation may cancel the sweep: swapping the page re-renders
+  // mid-timeline, and killing it then would leave the curtain over the page.
+  const shownRef = useRef(shown)
+  useLayoutEffect(() => { gsap.set(curtain.current, { yPercent: 100 }) }, [])
   useLayoutEffect(() => {
-    if (path === shown) return
-    if (reducedMotion()) {
+    if (path === shownRef.current) return
+    const swap = () => {
+      shownRef.current = path
       setShown(path)
       scrollToTop()
+    }
+    if (reducedMotion()) {
+      swap()
       return
     }
+    const el = curtain.current
     const tl = gsap.timeline()
-    tl.fromTo(curtain.current, { yPercent: 100 }, { yPercent: 0, duration: 0.45, ease: 'power3.in' })
-      .add(() => {
-        setShown(path)
-        scrollToTop()
-      })
-      .to(curtain.current, { yPercent: -100, duration: 0.6, ease: 'power3.out', delay: 0.05 })
-    return () => tl.kill()
-  }, [path, shown])
+    tl.fromTo(el, { yPercent: 100 }, { yPercent: 0, duration: 0.45, ease: 'power3.in' })
+      .add(swap)
+      .to(el, { yPercent: -100, duration: 0.6, ease: 'power3.out', delay: 0.05 })
+    return () => {
+      tl.kill()
+      gsap.set(el, { yPercent: 100 })
+    }
+  }, [path])
 
   useEffect(() => {
     const page = pages.find((p) => p.path === shown)
