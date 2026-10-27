@@ -67,49 +67,49 @@ export const stats = [
   { value: '3', label: 'Countries studied & worked' },
 ]
 
-// The journey so far, oldest first.
+// The journey so far, newest first.
 export const timeline = [
   {
-    id: 'sathyabama',
-    period: '2020 – 2024',
-    title: 'B.E. Computer Science',
-    place: 'Sathyabama Institute, Chennai',
-    text: 'Graduated with High Distinction (CGPA 8.36). Built computer-vision, data and mobile projects.',
-  },
-  {
-    id: 'dexbotix',
-    period: '2021',
-    title: 'Deep Learning Intern',
-    place: 'Dexbotix, India',
-    text: 'Built a YOLOv5 and OpenCV detection system for a shuttle-grabbing machine.',
-  },
-  {
-    id: 'ump',
-    period: '2023 – 2024',
-    title: 'Computer Systems & Networking',
-    place: 'Universiti Malaysia Pahang',
-    text: 'Mobility program with Distinction. Earned Cisco CCNA certifications.',
-  },
-  {
-    id: 'aity',
-    period: '2024',
-    title: 'Software Engineer Intern',
-    place: 'Aity Inc, USA (remote)',
-    text: 'Created AI training datasets, tested and iterated models, and led UI and brand design.',
+    id: 'monash',
+    period: '2025 – 2027',
+    title: 'Master of Business Information Systems',
+    place: 'Monash University, Melbourne',
+    text: 'Academic Distinction. Outstanding Pitch Award (FIT5233) and Innovation for Impact badge.'
   },
   {
     id: 'time-to-save',
     period: '2025 – 2026',
     title: 'Business Analyst',
     place: 'Time To Save, Melbourne',
-    text: 'Led requirements, As-Is/To-Be process mapping and KPI dashboards in Power BI and SQL.',
+    text: 'Led requirements, As-Is/To-Be process mapping and KPI dashboards in Power BI and SQL.'
   },
   {
-    id: 'monash',
-    period: '2025 – 2027',
-    title: 'Master of Business Information Systems',
-    place: 'Monash University, Melbourne',
-    text: 'Academic Distinction. Outstanding Pitch Award (FIT5233) and Innovation for Impact badge.',
+    id: 'aity',
+    period: '2024',
+    title: 'Software Engineer Intern',
+    place: 'Aity Inc, USA (remote)',
+    text: 'Created AI training datasets, tested and iterated models, and led UI and brand design.'
+  },
+  {
+    id: 'ump',
+    period: '2023 – 2024',
+    title: 'Computer Systems & Networking',
+    place: 'Universiti Malaysia Pahang',
+    text: 'Mobility program with Distinction. Earned Cisco CCNA certifications.'
+  },
+  {
+    id: 'dexbotix',
+    period: '2021',
+    title: 'Deep Learning Intern',
+    place: 'Dexbotix, India',
+    text: 'Built a YOLOv5 and OpenCV detection system for a shuttle-grabbing machine.'
+  },
+  {
+    id: 'sathyabama',
+    period: '2020 – 2024',
+    title: 'B.E. Computer Science',
+    place: 'Sathyabama Institute, Chennai',
+    text: 'Graduated with High Distinction (CGPA 8.36). Built computer-vision, data and mobile projects.'
   },
 ]
 
@@ -145,7 +145,23 @@ const [BA, AI, UX, PM, CV, NET] = focusAreas
 // Featured projects get a full card. `link` is optional; add a URL to show a button.
 export const projects = [
   {
+    id: 'cba-mig',
+    spotlight: true,
+    client: 'CommBank',
+    context: 'Monash Innovation Guarantee (MIG 2026)',
+    title: 'AI-in-Banking Innovation Sprint',
+    category: AI,
+    year: '2026',
+    highlight: 'Innovation for Impact badge',
+    summary:
+      'A three-week sprint on an AI-in-banking challenge with CommBank as industry partner. We tested our assumptions with the partner and real users using 5 Whys, human-centred design and rapid prototyping, then pitched the solution at Pitch Night.',
+    tags: ['Design Thinking', 'Prototyping', 'User Validation', 'Pitching'],
+  },
+  {
     id: 'ai-smart',
+    spotlight: true,
+    client: 'KPMG',
+    context: 'FIT5233 AI Transformation in Management Consulting',
     title: 'AI-Smart Capability Program',
     category: AI,
     year: '2026',
@@ -204,7 +220,6 @@ export const projects = [
 // Everything else, shown as a compact list under the featured cards.
 export const moreProjects = [
   { title: 'Monash Industry Experience Product', year: '2026', category: UX, note: 'Selected for the expo, top 17 of around 100 teams' },
-  { title: 'AI-in-Banking Innovation Sprint (MIG)', year: '2026', category: AI, note: 'Innovation for Impact badge' },
   { title: 'Face Recognition Attendance System', year: '2024', category: CV },
   { title: 'Neuro-degenerative Symptoms Detection', year: '2023', category: CV },
   { title: 'Network Security: DDoS Hardening', year: '2023', category: NET },
