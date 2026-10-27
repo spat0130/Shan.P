@@ -9,6 +9,9 @@ import '@fontsource/anton/latin-400.css'
 import './styles/theme.css'
 import './styles/global.css'
 import App from './App.jsx'
+import { applyTheme, initialTheme } from './lib/theme'
+
+applyTheme(initialTheme())
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

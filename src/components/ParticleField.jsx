@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { reducedMotion } from '../lib/smoothScroll'
 
-const COLORS = ['255,138,61', '255,197,107', '244,239,233']
+const CREAM = '244,239,233'
+const COLORS = ['255,138,61', '255,197,107', CREAM]
 
 // A fixed canvas of tiny drifting triangles, like embers over the city at dusk.
 // They lean away from the pointer a little, and freeze for reduced motion.
@@ -42,6 +43,7 @@ export default function ParticleField() {
 
     const draw = () => {
       ctx.clearRect(0, 0, w, h)
+      const light = document.documentElement.dataset.theme === 'light'
       const px = (pointer.x - 0.5) * 30
       const py = (pointer.y - 0.5) * 30
       for (const p of particles) {
@@ -64,7 +66,9 @@ export default function ParticleField() {
         ctx.lineTo(s * 0.87, s * 0.5)
         ctx.lineTo(-s * 0.87, s * 0.5)
         ctx.closePath()
-        ctx.fillStyle = `rgba(${p.color},${p.alpha * p.depth})`
+        // On the light theme the cream particles would vanish, so draw them dark.
+        const color = light && p.color === CREAM ? '60,48,40' : p.color
+        ctx.fillStyle = `rgba(${color},${p.alpha * p.depth})`
         ctx.fill()
         ctx.restore()
       }

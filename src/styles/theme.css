@@ -18,8 +18,45 @@
 }
 
 :root {
-  --glass-bg: rgb(21 27 34 / 0.55);
-  --glass-border: rgb(255 255 255 / 0.12);
-  --glow-border: rgb(79 179 255 / 0.45);
+  --glass-bg: rgb(var(--surface-rgb) / 0.55);
+  --glass-border: rgb(var(--line-rgb) / 0.12);
+  --glow-border: rgb(var(--glow-rgb) / 0.45);
   --radius: 14px;
+
+  /* Colour channels, so translucent tints follow the theme. */
+  --night-rgb: 11 15 20;
+  --surface-rgb: 21 27 34;
+  --text-rgb: 244 239 233;
+  --line-rgb: 255 255 255;
+  --card-warm-rgb: 33 24 22;
+  --brick-rgb: 90 46 31;
+  --glow-rgb: 79 179 255;
+  --gold-rgb: 255 197 107;
+  --sunset-rgb: 255 138 61;
+  --color-on-accent: #0b0f14;
+  --color-badge: #ffc56b;
+  color-scheme: dark;
+}
+
+/* Light theme: warm paper in daylight, with deeper accents so text keeps its contrast. */
+:root[data-theme='light'] {
+  --color-night: #f7f2ea;
+  --color-asphalt: #ece4d8;
+  --color-brick: #e9c9b4;
+  --color-sunset: #d4561a;
+  --color-gold: #a85f00;
+  --color-glow: #1f6fb2;
+  --color-text: #1c1a18;
+  --color-muted: #5e564e;
+
+  --night-rgb: 247 242 234;
+  --surface-rgb: 255 252 247;
+  --text-rgb: 28 26 24;
+  --line-rgb: 28 26 24;
+  --card-warm-rgb: 255 240 228;
+  --brick-rgb: 233 180 150;
+  --glow-rgb: 31 111 178;
+  --gold-rgb: 168 95 0;
+  --sunset-rgb: 212 86 26;
+  color-scheme: light;
 }

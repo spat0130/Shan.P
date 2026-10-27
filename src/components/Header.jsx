@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import EmailLink from './EmailLink'
 import Icon from './Icon'
+import ThemeToggle from './ThemeToggle'
 import { Link, useRouter } from '../lib/router'
 import { setScrollLocked } from '../lib/smoothScroll'
 import { contact, pages, profile } from '../data/site'
@@ -53,20 +54,23 @@ export default function Header() {
         <img className="site-header__mark" src={photo} alt="" width="40" height="40" />
         <span className="site-header__name">{profile.shortName}</span>
       </Link>
-      <nav className="site-header__nav" aria-label="Main">{links}</nav>
+      <div className="site-header__actions">
+        <nav className="site-header__nav" aria-label="Main">{links}</nav>
+        <ThemeToggle />
 
-      <button
-        ref={toggle}
-        type="button"
-        className="menu-toggle"
-        aria-expanded={open}
-        aria-controls="mobile-menu"
-        onClick={() => setOpen((o) => !o)}
-      >
-        <span className="visually-hidden">{open ? 'Close menu' : 'Open menu'}</span>
-        <span className="menu-toggle__bar" aria-hidden="true" />
-        <span className="menu-toggle__bar" aria-hidden="true" />
-      </button>
+        <button
+          ref={toggle}
+          type="button"
+          className="menu-toggle"
+          aria-expanded={open}
+          aria-controls="mobile-menu"
+          onClick={() => setOpen((o) => !o)}
+        >
+          <span className="visually-hidden">{open ? 'Close menu' : 'Open menu'}</span>
+          <span className="menu-toggle__bar" aria-hidden="true" />
+          <span className="menu-toggle__bar" aria-hidden="true" />
+        </button>
+      </div>
 
       <div id="mobile-menu" ref={menu} className="mobile-menu" hidden={!open}>
         <nav aria-label="Menu">
