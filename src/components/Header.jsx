@@ -1,15 +1,20 @@
-import { profile, scenes } from '../data/site'
-
-const navItems = scenes.filter((s) => ['builder', 'projects', 'connect'].includes(s.id))
+import { Link, useRouter } from '../lib/router'
+import { pages, profile } from '../data/site'
 
 export default function Header() {
+  const { path } = useRouter()
   return (
     <header className="site-header">
-      <a href="#arrival" className="site-header__name">{profile.shortName}</a>
+      <Link to="/" className="site-header__logo" aria-label={`${profile.name}, home`}>
+        <span className="site-header__mark" aria-hidden="true">SP</span>
+        <span className="site-header__name">{profile.shortName}</span>
+      </Link>
       <nav aria-label="Main">
         <ul className="site-nav">
-          {navItems.map((s) => (
-            <li key={s.id}><a href={`#${s.id}`}>{s.title.replace("Let's ", '').replace('Meet the ', '').replace(' in Motion', '')}</a></li>
+          {pages.map((p) => (
+            <li key={p.path}>
+              <Link to={p.path} aria-current={path === p.path ? 'page' : undefined}>{p.label}</Link>
+            </li>
           ))}
         </ul>
       </nav>

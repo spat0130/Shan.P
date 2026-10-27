@@ -21,32 +21,53 @@ export const profile = {
   },
 }
 
-// The scroll narrative, one entry per storyboard frame.
-export const scenes = [
-  { id: 'arrival', number: '01', title: 'The Arrival', caption: 'The journey begins...' },
-  { id: 'ready', number: '02', title: 'Ready to Move', caption: 'Focus. Control. Next stop.' },
-  { id: 'dismount', number: '03', title: 'Dismount', caption: 'Time to step off...' },
-  { id: 'walk', number: '04', title: 'Walk Into My World', caption: 'Same streets. New perspective.' },
-  { id: 'builder', number: '05', title: 'Meet the Builder', caption: 'Builder. Problem solver. Always learning.' },
-  { id: 'projects', number: '06', title: 'Projects in Motion', caption: 'Ideas → Code → Real Impact.' },
-  { id: 'connect', number: '07', title: "Let's Connect", caption: 'Open to opportunities, collaborations and new ideas.' },
+// Short-URL pages. `icon` names a line icon in components/Icon.jsx.
+export const pages = [
+  { path: '/about', label: 'About', title: 'About me', eyebrow: 'Builder. Problem solver. Always learning.', icon: 'person' },
+  { path: '/journey', label: 'Journey', title: 'My journey', eyebrow: 'Same streets. New perspective.', icon: 'route' },
+  { path: '/projects', label: 'Projects', title: 'Projects in motion', eyebrow: 'Ideas → Code → Real impact.', icon: 'chart' },
+  { path: '/contact', label: 'Contact', title: "Let's connect", eyebrow: 'Open to opportunities.', icon: 'connect' },
+]
+const page = (path) => pages.find((p) => p.path === path)
+
+// Round badge links on either side of the hero.
+export const badges = {
+  left: [
+    { to: '/about', label: 'About me', icon: 'person' },
+    { to: '/journey', label: 'My journey', icon: 'route' },
+    { to: 'https://www.linkedin.com/in/shan-pat', label: 'LinkedIn', icon: 'linkedin' },
+  ],
+  right: [
+    { to: '/projects', label: 'Projects', icon: 'chart' },
+    { to: '/contact', label: "Let's connect", icon: 'connect' },
+    { to: 'https://github.com/spat0130', label: 'GitHub', icon: 'github' },
+  ],
+}
+
+// Three short proof points along the bottom of the hero.
+export const highlights = [
+  { value: '15+', label: 'Projects delivered across business, data and AI' },
+  { value: 'Award', label: 'Outstanding Pitch, FIT5233 AI Transformation, Monash' },
+  { value: 'Top 17', label: 'Of around 100 teams selected for the Monash IE Expo' },
 ]
 
-// Scene 02: how I work.
+export const explore = ['/about', '/journey', '/projects'].map(page)
+
+// How I work.
 export const principles = [
   { label: 'Understand first', text: 'Turn assumptions into insights. Talk to real users, ask the five whys and validate before building.' },
   { label: 'Build responsibly', text: 'Privacy, ethics and sustainability are design requirements, not afterthoughts.' },
   { label: 'Deliver together', text: 'Innovation is a team sport. I connect business, data and design so teams ship work that matters.' },
 ]
 
-// Scene 03: quick numbers.
+// Quick numbers.
 export const stats = [
   { value: '15+', label: 'Projects delivered' },
   { value: '4', label: 'Industry roles' },
   { value: '3', label: 'Countries studied & worked' },
 ]
 
-// Scene 04: the journey so far, oldest first.
+// The journey so far, oldest first.
 export const timeline = [
   {
     id: 'sathyabama',
@@ -92,7 +113,7 @@ export const timeline = [
   },
 ]
 
-// Scene 05: toolkit.
+// Toolkit.
 export const skills = [
   'Business Analysis',
   'Requirements Gathering',
@@ -110,7 +131,7 @@ export const skills = [
   'Git',
 ]
 
-// Scene 06: focus areas, used as project categories.
+// Focus areas, used as project categories.
 export const focusAreas = [
   'Business Analysis & Systems',
   'AI & Responsible Tech',

@@ -1,16 +1,34 @@
-import { SceneHeading } from '../Scene'
-import Icon from '../Icon'
-import { ProjectsVisual } from '../Visuals'
-import { focusAreas, moreProjects, projects } from '../../data/site'
+import { useRef } from 'react'
+import PageShell from '../components/PageShell'
+import Icon from '../components/Icon'
+import { gsap } from '../lib/smoothScroll'
+import { reveal, usePageMotion } from '../lib/motion'
+import { focusAreas, moreProjects, pages, projects } from '../data/site'
 
-// Not a full-bleed frame: a perspective grid sits behind a grid of glowing
-// "holographic" project cards.
-export default function Projects({ scene }) {
+export default function Projects() {
+  const ref = useRef(null)
+
+  // Holographic cards float up and tilt into place one by one.
+  usePageMotion(ref, () => {
+    reveal('.focus-areas li', '.focus-areas', { y: 0, scale: 0.8, stagger: 0.05, duration: 0.5 })
+    gsap.utils.toArray('.project-card').forEach((card, i) => {
+      gsap.from(card, {
+        y: 100,
+        rotateX: 18,
+        autoAlpha: 0,
+        transformPerspective: 900,
+        duration: 1,
+        delay: (i % 3) * 0.1,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: card, start: 'top 92%', once: true },
+      })
+    })
+    reveal('.more-projects li', '.more-projects', { y: 20, stagger: 0.04, duration: 0.6 })
+  })
+
   return (
-    <section id={scene.id} className="projects" aria-labelledby={`${scene.id}-title`}>
-      <div className="projects__bg"><ProjectsVisual /></div>
-      <div className="projects__inner">
-        <SceneHeading scene={scene} />
+    <PageShell page={pages[2]}>
+      <div ref={ref} data-motion="custom" className="projects-body">
         <ul className="focus-areas" aria-label="Focus areas">
           {focusAreas.map((f) => <li key={f}>{f}</li>)}
         </ul>
@@ -36,7 +54,7 @@ export default function Projects({ scene }) {
           ))}
         </ul>
 
-        <h3 className="label more-projects__title">More projects</h3>
+        <h2 className="label more-projects__title">More projects</h2>
         <ul className="more-projects">
           {moreProjects.map((p) => (
             <li key={p.title}>
@@ -50,6 +68,6 @@ export default function Projects({ scene }) {
           ))}
         </ul>
       </div>
-    </section>
+    </PageShell>
   )
 }

@@ -11,6 +11,7 @@
 
   --font-display: 'Space Grotesk', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
+  --font-poster: 'Anton', 'Space Grotesk', Impact, sans-serif;
 
   --gutter: clamp(16px, 4vw, 64px);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
