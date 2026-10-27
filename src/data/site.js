@@ -171,6 +171,16 @@ export const projects = [
     tags: ['AI Strategy', 'Consulting', 'Change Management'],
   },
   {
+    id: 'monash-ie',
+    title: 'Monash Industry Experience Product',
+    category: UX,
+    year: '2026',
+    highlight: 'Top 17 at the IE Expo',
+    summary:
+      'Built a product with a six-person team spanning IT, cybersecurity, data science, AI and business, guided by an industry mentor from Telstra. Selected for the Monash IE Expo, top 17 of around 100 teams.',
+    tags: ['Product', 'Cross-functional Team', 'Industry Mentoring'],
+  },
+  {
     id: 'elegance-crm',
     title: 'Élégance CRM & Access Control',
     category: BA,
@@ -219,7 +229,6 @@ export const projects = [
 
 // Everything else, shown as a compact list under the featured cards.
 export const moreProjects = [
-  { title: 'Monash Industry Experience Product', year: '2026', category: UX, note: 'Selected for the expo, top 17 of around 100 teams' },
   { title: 'Face Recognition Attendance System', year: '2024', category: CV },
   { title: 'Neuro-degenerative Symptoms Detection', year: '2023', category: CV },
   { title: 'Network Security: DDoS Hardening', year: '2023', category: NET },
