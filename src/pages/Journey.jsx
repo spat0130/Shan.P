@@ -13,7 +13,7 @@ export default function Journey() {
           </div>
         ))}
       </dl>
-      <WalkVisual />
+      <WalkVisual stops={[...timeline].reverse()} />
       <ol className="timeline">
         {timeline.map((m) => (
           <li key={m.id} className="glass">

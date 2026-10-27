@@ -456,6 +456,37 @@ body::before {
 
 .visual--walk { position: relative; display: block; width: 100%; height: auto; }
 
+/* Journey curve tooltips: laptops and desktops only (a real mouse, wide screen). */
+.walk { position: relative; }
+.walk .stop__hit { fill: transparent; stroke: none; }
+.walk__tip { display: none; }
+@media (hover: hover) and (pointer: fine) and (min-width: 1025px) {
+  .walk .stop { cursor: pointer; }
+  .walk .stop circle.draw { transition: stroke-width 0.25s; }
+  .walk .stop.is-active circle.draw { stroke-width: 3; }
+  .walk__tip {
+    position: absolute;
+    z-index: 2;
+    display: grid;
+    gap: 2px;
+    min-width: 200px;
+    max-width: 280px;
+    padding: 12px 16px;
+    border: 1px solid rgb(255 138 61 / 0.45);
+    border-radius: 12px;
+    background: rgb(11 15 20 / 0.92);
+    box-shadow: 0 12px 40px rgb(0 0 0 / 0.45), 0 0 30px rgb(255 138 61 / 0.15);
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    pointer-events: none;
+    transform: translate(var(--shift, -50%), calc(-100% - 28px));
+    animation: tip-in 0.25s var(--ease-out);
+  }
+  .walk__tip strong { color: var(--color-text); font-size: 1rem; }
+  .walk__period { color: var(--color-sunset); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; }
+}
+@keyframes tip-in { from { opacity: 0; margin-top: 8px; } }
+
 .contact-stage { position: relative; }
 .contact-photo {
   margin: 0;

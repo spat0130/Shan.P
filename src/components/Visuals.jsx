@@ -2,6 +2,8 @@
 // with the `draw` class has pathLength=1 so animations.js can draw it in by
 // tweening stroke-dashoffset from 1 to 0.
 
+import { useState } from 'react'
+
 const D = { pathLength: 1, className: 'draw' }
 
 function Svg({ name, viewBox = '0 0 600 600', preserveAspectRatio, children }) {
@@ -71,24 +73,47 @@ export function DismountVisual() {
 }
 
 // 04: the route, a winding path through six milestones.
-export function WalkVisual() {
+// The route with one stop per milestone. On laptops, hovering a stop shows
+// its title above it; `stops` runs left to right, oldest first.
+export function WalkVisual({ stops = [] }) {
+  const [active, setActive] = useState(null)
   const points = [
     [70, 236], [250, 110], [440, 200], [630, 90], [820, 180], [1010, 80],
   ]
+  const stop = active === null ? null : stops[active]
   return (
-    <Svg name="walk" viewBox="0 0 1080 300">
-      <path
-        d="M20 240 C 120 240, 160 110, 250 110 S 360 200, 440 200 S 540 90, 630 90 S 740 180, 820 180 S 940 80, 1060 60"
-        {...D}
-        className="draw route"
-      />
-      {points.map(([x, y], i) => (
-        <g key={i} className="stop">
-          <circle cx={x} cy={y} r="14" {...D} />
-          <circle cx={x} cy={y} r="4" className="node" />
-        </g>
-      ))}
-    </Svg>
+    <div className="walk" onMouseLeave={() => setActive(null)}>
+      <Svg name="walk" viewBox="0 0 1080 300">
+        <path
+          d="M20 240 C 120 240, 160 110, 250 110 S 360 200, 440 200 S 540 90, 630 90 S 740 180, 820 180 S 940 80, 1060 60"
+          {...D}
+          className="draw route"
+        />
+        {points.map(([x, y], i) => (
+          <g key={i} className={`stop${active === i ? ' is-active' : ''}`} onMouseEnter={() => setActive(i)}>
+            <circle cx={x} cy={y} r="14" {...D} />
+            <circle cx={x} cy={y} r="4" className="node" />
+            <circle cx={x} cy={y} r="30" className="stop__hit" />
+          </g>
+        ))}
+      </Svg>
+      {stop && (
+        <div
+          className="walk__tip"
+          aria-hidden="true"
+          style={{
+            left: `${(points[active][0] / 1080) * 100}%`,
+            top: `${(points[active][1] / 300) * 100}%`,
+            // Keep the end tips inside the page instead of centring them.
+            '--shift': active === 0 ? '-12%' : active === points.length - 1 ? '-88%' : '-50%',
+          }}
+        >
+          <span className="walk__period">{stop.period}</span>
+          <strong>{stop.title}</strong>
+          <span>{stop.place}</span>
+        </div>
+      )}
+    </div>
   )
 }
 
