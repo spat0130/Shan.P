@@ -96,9 +96,89 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 }
 .site-nav a:hover, .site-nav a[aria-current='page'] { color: var(--color-sunset); }
 .site-nav a:hover::after, .site-nav a[aria-current='page']::after { transform: scaleX(1); }
-@media (max-width: 560px) {
-  .site-header { letter-spacing: 0.08em; font-size: 0.7rem; }
-  .site-header__name { display: none; }
+
+/* Mobile menu: hidden on desktop, replaces the inline nav on phones. */
+.menu-toggle {
+  display: none;
+  position: relative;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgb(255 138 61 / 0.45);
+  border-radius: 50%;
+  background: rgb(11 15 20 / 0.6);
+  color: var(--color-text);
+  cursor: pointer;
+}
+.menu-toggle__bar {
+  position: absolute;
+  left: 13px;
+  right: 13px;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 0.4s var(--ease-out);
+}
+.menu-toggle__bar:nth-of-type(2) { transform: translateY(-3.5px); }
+.menu-toggle__bar:nth-of-type(3) { transform: translateY(3.5px); }
+.is-open .menu-toggle__bar:nth-of-type(2) { transform: rotate(45deg); }
+.is-open .menu-toggle__bar:nth-of-type(3) { transform: rotate(-45deg); }
+.site-header__logo { position: relative; z-index: 2; }
+
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 48px;
+  padding: 96px var(--gutter) 40px;
+  background: radial-gradient(120% 70% at 50% 110%, rgb(255 138 61 / 0.28), transparent 60%), var(--color-night);
+  animation: menu-in 0.45s var(--ease-out);
+}
+.mobile-menu[hidden] { display: none; }
+.mobile-menu__pages { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.mobile-menu__pages li { animation: menu-item 0.6s var(--ease-out) both; animation-delay: calc(0.08s + var(--i) * 0.06s); }
+.mobile-menu__pages a {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  font-family: var(--font-poster);
+  font-size: clamp(2.6rem, 13vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  color: var(--color-text);
+  text-decoration: none;
+}
+.mobile-menu__pages small { font-family: var(--font-display); font-size: 0.8rem; letter-spacing: 0.15em; color: var(--color-gold); }
+.mobile-menu__pages a[aria-current='page'] { color: var(--color-sunset); }
+.mobile-menu__social { display: flex; flex-wrap: wrap; gap: 12px; margin: 0; padding: 0; list-style: none; animation: menu-item 0.6s var(--ease-out) 0.4s both; }
+.mobile-menu__social a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border: 1px solid rgb(255 138 61 / 0.35);
+  border-radius: 999px;
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+}
+.mobile-menu__social svg { color: var(--color-gold); }
+@keyframes menu-in { from { opacity: 0; clip-path: circle(0% at calc(100% - 42px) 40px); } to { opacity: 1; clip-path: circle(150% at calc(100% - 42px) 40px); } }
+@keyframes menu-item { from { opacity: 0; transform: translateY(24px); } }
+
+@media (max-width: 860px) {
+  .site-header__nav { display: none; }
+  .menu-toggle { display: block; }
+}
+@media (min-width: 861px) {
+  .mobile-menu { display: none !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu, .mobile-menu__pages li, .mobile-menu__social { animation: none; }
 }
 
 .visually-hidden {
@@ -295,14 +375,9 @@ body::before {
 .scroll-cue:hover { color: var(--color-sunset); }
 
 @media (max-width: 860px) {
-  .hero { grid-template-columns: 1fr; grid-template-rows: auto auto auto auto; padding-top: 110px; }
+  .hero { grid-template-columns: 1fr; grid-template-rows: 1fr auto auto; padding-top: 110px; }
   .hero__center { grid-column: 1; grid-row: 1; }
-  .hero__badges { grid-template-columns: repeat(3, auto); justify-content: center; }
-  .hero__badges--left { grid-column: 1; grid-row: 2; }
-  .hero__badges--right { grid-column: 1; grid-row: 3; }
-  .badge { width: 92px; }
-  .badge__ring text { font-size: 19px; }
-  .badge__icon svg { width: 30px; height: 30px; }
+  .hero__badges { display: none; }
   .highlights { grid-template-columns: 1fr; gap: 14px; }
   .highlights strong { font-size: 1.5rem; }
 }
