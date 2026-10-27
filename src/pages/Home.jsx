@@ -53,9 +53,10 @@ export default function Home({ ready }) {
 
         <div className="hero__center">
           <h1 id="hero-title" className="hero__title">
-            <span className="hero__first">{profile.firstName}</span>
-            <span className="hero__last" aria-label={profile.lastName}>
-              {[...profile.lastName].map((c, i) => <span key={i} aria-hidden="true">{c}</span>)}
+            <span className="hero__first">Hello, I&apos;m</span>
+            <span className="hero__last" aria-label={`${profile.firstName} ${profile.lastName[0]}.`}>
+              {[...profile.firstName].map((c, i) => <span key={i} aria-hidden="true">{c}</span>)}
+              <span className="hero__initial" aria-hidden="true">{profile.lastName[0]}.</span>
             </span>
           </h1>
           <p className="hero__role">{profile.role}</p>

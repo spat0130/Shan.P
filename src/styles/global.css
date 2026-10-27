@@ -240,6 +240,7 @@ body::before {
   filter: drop-shadow(0 0 40px rgb(255 138 61 / 0.25));
 }
 .hero__last span { display: inline-block; }
+.hero__initial { margin-left: 0.18em; color: var(--color-text); }
 .hero__role { margin: 1.25rem 0 0; font-size: clamp(0.95rem, 1.6vw, 1.35rem); letter-spacing: 0.22em; text-transform: uppercase; }
 
 .hero__badges { display: grid; gap: clamp(12px, 3vh, 32px); }
