@@ -1,0 +1,11 @@
+# Weekly check for security fixes in npm packages and the deploy workflow's actions.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

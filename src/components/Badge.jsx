@@ -1,9 +1,10 @@
 import { useId } from 'react'
 import { Link } from '../lib/router'
+import EmailLink from './EmailLink'
 import Icon from './Icon'
 
 // A round link with its label set on a circle, like a stamp. Internal paths
-// use the router; anything starting with http or mailto opens normally.
+// use the router, 'email' opens the mail app, and http links open in a new tab.
 export default function Badge({ to, label, icon, className = '' }) {
   const id = useId().replace(/:/g, '')
   const text = `${label} • `.repeat(label.length > 14 ? 1 : 2)
@@ -22,8 +23,9 @@ export default function Badge({ to, label, icon, className = '' }) {
     </>
   )
   const cls = `badge ${className}`
-  if (/^(https?:|mailto:)/.test(to)) {
-    return <a className={cls} href={to} target={to.startsWith('http') ? '_blank' : undefined} rel="noreferrer">{content}</a>
+  if (to === 'email') return <EmailLink className={cls}>{content}</EmailLink>
+  if (/^https?:/.test(to)) {
+    return <a className={cls} href={to} target="_blank" rel="noreferrer">{content}</a>
   }
   return <Link className={cls} to={to}>{content}</Link>
 }

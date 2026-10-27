@@ -40,7 +40,7 @@ export const badges = {
   right: [
     { to: '/projects', label: 'Projects', icon: 'chart' },
     { to: '/contact', label: "Let's connect", icon: 'connect' },
-    { to: 'mailto:shan.everything@gmail.com', label: 'Email me', icon: 'email' },
+    { to: 'email', label: 'Email me', icon: 'email' },
   ],
 }
 
@@ -222,6 +222,6 @@ export const contact = {
   text: 'Open to business analyst, product and consulting roles, collaborations and new ideas.',
   links: [
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/shan-pat', icon: 'linkedin' },
-    { label: 'Email', href: 'mailto:shan.everything@gmail.com', icon: 'email' },
+    { label: 'Email', href: 'email', icon: 'email' },
   ],
 }
