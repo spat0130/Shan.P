@@ -1,12 +1,13 @@
 import { Link, useRouter } from '../lib/router'
 import { pages, profile } from '../data/site'
+import photo from '../assets/shan.webp'
 
 export default function Header() {
   const { path } = useRouter()
   return (
     <header className="site-header">
       <Link to="/" className="site-header__logo" aria-label={`${profile.name}, home`}>
-        <span className="site-header__mark" aria-hidden="true">SP</span>
+        <img className="site-header__mark" src={photo} alt="" width="40" height="40" />
         <span className="site-header__name">{profile.shortName}</span>
       </Link>
       <nav aria-label="Main">
