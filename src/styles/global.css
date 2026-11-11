@@ -640,7 +640,7 @@ body::before {
 }
 .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
 @media (max-width: 380px) { .project-grid { grid-template-columns: 1fr; } }
-.project-card {
+.project-card .flip-card__face {
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -652,22 +652,11 @@ body::before {
   -webkit-backdrop-filter: blur(10px);
   transition: box-shadow 0.3s;
 }
-.project-card:hover { box-shadow: 0 0 48px rgb(var(--glow-rgb) / 0.25), inset 0 0 24px rgb(var(--glow-rgb) / 0.1); }
-.project-card__thumb {
-  display: grid;
-  place-items: center;
-  aspect-ratio: 16 / 9;
-  margin-bottom: 16px;
-  border-radius: 10px;
-  border: 1px dashed var(--glow-border);
-  color: rgb(var(--glow-rgb) / 0.5);
-  font-family: var(--font-display);
-  font-size: 2.5rem;
-  font-weight: 700;
-}
+.project-card:hover .flip-card__face { box-shadow: 0 0 48px rgb(var(--glow-rgb) / 0.25), inset 0 0 24px rgb(var(--glow-rgb) / 0.1); }
+.project-card__thumb { margin-bottom: 16px; }
 .project-card__category { margin: 0; color: var(--color-glow); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; }
 .project-card h3 { margin: 0.3rem 0 0.5rem; font-size: 1.35rem; }
-.project-card > p:not(.project-card__category) { margin: 0; color: var(--color-muted); font-size: 0.92rem; flex: 1; }
+.flip-card__summary { margin: 0; color: var(--color-muted); font-size: 0.92rem; flex: 1; }
 .project-card__tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 1rem 0; }
 .project-card__tags li { font-size: 0.72rem; padding: 3px 10px; border-radius: 999px; background: rgb(var(--line-rgb) / 0.07); }
 .project-card__link { display: inline-flex; align-items: center; gap: 6px; color: var(--color-sunset); font-weight: 600; font-size: 0.9rem; text-decoration: none; }
@@ -713,7 +702,7 @@ body::before {
 
 /* Industry spotlight: the two client projects, set apart from the grid. */
 .spotlight { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 24px; margin-bottom: 1rem; }
-.spotlight__item {
+.spotlight__item .flip-card__face {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -727,7 +716,7 @@ body::before {
   box-shadow: 0 0 50px rgb(var(--sunset-rgb) / 0.12);
   transition: box-shadow 0.4s, border-color 0.4s;
 }
-.spotlight__item:hover { border-color: var(--color-sunset); box-shadow: 0 0 70px rgb(var(--sunset-rgb) / 0.25); }
+.spotlight__item:hover .flip-card__face { border-color: var(--color-sunset); box-shadow: 0 0 70px rgb(var(--sunset-rgb) / 0.25); }
 .spotlight__client {
   margin: 0;
   font-family: var(--font-poster);
@@ -752,4 +741,106 @@ body::before {
   font-size: 0.75rem;
   font-weight: 600;
 }
-.spotlight__item > p:not([class]) { margin: 0; color: var(--color-muted); flex: 1; }
+.spotlight__item .flip-card__summary { font-size: 1rem; }
+.spotlight__client--small { font-size: clamp(2rem, 4vw, 2.75rem); }
+.spotlight__item .flip-card__front { padding: 0; }
+.project-photo.spotlight__photo { aspect-ratio: 16 / 7; border-radius: 0; border: 0; border-bottom: 1px solid rgb(var(--sunset-rgb) / 0.3); }
+.spotlight__body { display: flex; flex-direction: column; flex: 1; padding: clamp(20px, 3vw, 32px) clamp(24px, 3vw, 36px) clamp(24px, 3vw, 36px); }
+.spotlight__body h3 { margin: 0.8rem 0 1rem; font-size: 1.5rem; }
+.spotlight__body .spotlight__badge { margin: auto 0 0; }
+
+/* Project photos, with a placeholder until a real one is added. */
+.project-photo {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid var(--glow-border);
+}
+.project-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.project-photo--placeholder {
+  display: grid;
+  place-items: center;
+  color: rgb(var(--glow-rgb) / 0.75);
+  background:
+    radial-gradient(90% 120% at 0% 100%, rgb(var(--sunset-rgb) / 0.22), transparent 60%),
+    radial-gradient(90% 120% at 100% 0%, rgb(var(--glow-rgb) / 0.28), transparent 60%),
+    repeating-linear-gradient(135deg, rgb(var(--line-rgb) / 0.04) 0 1px, transparent 1px 14px),
+    rgb(var(--surface-rgb) / 0.7);
+}
+.spotlight__photo.project-photo--placeholder { color: rgb(var(--sunset-rgb) / 0.8); }
+.project-photo__index {
+  position: absolute;
+  left: 14px;
+  bottom: 8px;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: rgb(var(--glow-rgb) / 0.45);
+}
+
+/* Flip cards: both faces share one grid cell, so the card is as tall as the taller face. */
+.flip-card { position: relative; perspective: 1400px; cursor: pointer; }
+.flip-card__inner {
+  display: grid;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s var(--ease-out);
+}
+.flip-card__face {
+  grid-area: 1 / 1;
+  min-height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.flip-card__back { transform: rotateY(180deg); }
+.flip-card.is-flipped .flip-card__inner,
+.flip-card:has(:focus-visible) .flip-card__inner { transform: rotateY(180deg); }
+@media (hover: hover) and (pointer: fine) {
+  .flip-card:hover .flip-card__inner { transform: rotateY(180deg); }
+}
+/* backdrop-filter flattens 3D, so it can't sit on a face that turns over. */
+.flip-card .flip-card__face { backdrop-filter: none; -webkit-backdrop-filter: none; }
+.project-card .flip-card__back { background: linear-gradient(200deg, rgb(var(--glow-rgb) / 0.18), rgb(var(--surface-rgb) / 0.6)), rgb(var(--surface-rgb)); }
+.spotlight__item .flip-card__back { background: radial-gradient(120% 90% at 0% 0%, rgb(var(--sunset-rgb) / 0.22), transparent 55%), rgb(var(--surface-rgb)); }
+
+/* Small round flip button: the tap hint on touch screens and the keyboard control everywhere. */
+.flip-card__toggle {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--glow-border);
+  border-radius: 50%;
+  background: rgb(var(--surface-rgb) / 0.85);
+  color: var(--color-glow);
+  cursor: pointer;
+  transition: transform 0.4s var(--ease-out), border-color 0.3s;
+}
+.flip-card__toggle:hover { border-color: var(--color-glow); }
+.flip-card.is-flipped .flip-card__toggle { transform: rotate(180deg); }
+.spotlight__item .flip-card__toggle { border-color: rgb(var(--sunset-rgb) / 0.5); color: var(--color-sunset); }
+@media (hover: hover) and (pointer: fine) {
+  /* Hover does the flipping, so only show the button to keyboard users. */
+  .flip-card__toggle { opacity: 0; }
+  .flip-card__toggle:focus-visible { opacity: 1; }
+}
+
+/* Reduced motion: no turning, the details fade in over the front instead. */
+@media (prefers-reduced-motion: reduce) {
+  .flip-card__inner, .flip-card.is-flipped .flip-card__inner, .flip-card:has(:focus-visible) .flip-card__inner, .flip-card:hover .flip-card__inner { transform: none; transition: none; }
+  .flip-card__back { transform: none; opacity: 0; visibility: hidden; transition: opacity 0.25s, visibility 0.25s; }
+  .flip-card__front { transition: opacity 0.25s; }
+  .flip-card.is-flipped .flip-card__back, .flip-card:has(:focus-visible) .flip-card__back { opacity: 1; visibility: visible; }
+  .flip-card.is-flipped .flip-card__front, .flip-card:has(:focus-visible) .flip-card__front { opacity: 0; }
+  .flip-card__toggle { transition: none; }
+}
+@media (prefers-reduced-motion: reduce) and (hover: hover) and (pointer: fine) {
+  .flip-card:hover .flip-card__back { opacity: 1; visibility: visible; }
+  .flip-card:hover .flip-card__front { opacity: 0; }
+}

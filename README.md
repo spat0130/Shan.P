@@ -22,6 +22,7 @@ npm run build   # production build in dist/
 - `src/components/` — page sections
 - `src/styles/theme.css` — colours, fonts and spacing tokens
 - `src/components/Visuals.jsx` — the animated line-art symbol for each scene
+- `src/assets/projects/` — project card photos, named after each project's `id` (for example `drone-thermal.webp`)
 
 ## Roadmap
 
